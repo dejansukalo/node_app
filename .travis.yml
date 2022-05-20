@@ -6,6 +6,4 @@ before_install:
   - docker build -t dejansukalo/react_app -f Dockerfile.dev .
 
 script:
-  - docker run dejansukalo/react_app npm run test -- --coverage
-
-
+ - docker run -e CI=true dejansukalo/react_app npm run test -- --coverage 
