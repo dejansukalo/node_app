@@ -8,15 +8,9 @@ before_install:
 script:
  - docker run -e CI=true dejansukalo/react_app npm run test -- --coverage 
 
-deploy:
-  provider: elasticbeanstalk
-  region: "eu-central-1"
-  app: "docker"
-  env: "Docker-env"
-  bucket_name: "elasticbeanstalk-eu-central-1-927112977430"
-  bucket_path: "docker"
-  on: 
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY 
-  secret_access_key: "$AWS_SECRET_KEY"
+after_success:
+  - docker build -t dejansukalo/react_app ./sample
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push  dejansukalo/react_app
 
