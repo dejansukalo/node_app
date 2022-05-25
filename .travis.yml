@@ -3,14 +3,14 @@ services:
   - docker
 
 before_install:
-  - docker build -t dejansukalo/react_app -f Dockerfile.dev .
+  - docker build -t dejansukalo/dejansrepo:react_app_private -f Dockerfile.dev .
 
 script:
- - docker run -e CI=true dejansukalo/react_app npm run test -- --coverage 
+ - docker run -e CI=true dejansukalo/dejansrepo:react_app_private npm run test -- --coverage 
 
 after_success:
-  - docker build -t dejansukalo/react_app ./sample
+  - docker build -t dejansukalo/dejansrepo:react_app_private ./sample
 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push dejansukalo/react_app
+  - docker push dejansukalo/dejansrepo:react_app_private
 
